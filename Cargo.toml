@@ -1,0 +1,5 @@
+[workspace]
+members = [
+    "aoc-runner",
+    "challenge-libs/day-3"
+]
