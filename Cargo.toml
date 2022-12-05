@@ -2,5 +2,6 @@
 members = [
     "aoc-runner",
     "challenge-libs/day-3",
-    "challenge-libs/day-4"
+    "challenge-libs/day-4",
+    "challenge-libs/day-5"
 ]
