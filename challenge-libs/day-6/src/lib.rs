@@ -19,8 +19,7 @@ pub fn part_one(input: &str) -> String {
         }
     }).map(|(idx, (_, _, _, _))| idx+4)
     .take(1)
-    .collect::<Vec<usize>>()
-    .iter().last().unwrap()
+    .sum::<usize>()
     .to_string()
 }
 
