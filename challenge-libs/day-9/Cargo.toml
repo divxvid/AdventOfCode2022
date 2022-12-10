@@ -1,9 +1,8 @@
 [package]
-name = "aoc-runner"
+name = "day-9"
 version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-day-10 = { path = "../challenge-libs/day-10" }
