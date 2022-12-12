@@ -9,4 +9,5 @@ members = [
     "challenge-libs/day-8",
     "challenge-libs/day-9",
     "challenge-libs/day-10",
+    "challenge-libs/day-11",
 ]
