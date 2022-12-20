@@ -6,10 +6,10 @@ enum HeadPosition {
     BELOW,
     LEFT,
     RIGHT,
-    ABOVE_LEFT,
-    ABOVE_RIGHT,
-    BELOW_LEFT,
-    BELOW_RIGHT,
+    AboveLeft,
+    AboveRight,
+    BelowLeft,
+    BelowRight,
     SAME
 }
 
@@ -75,22 +75,22 @@ impl Rope {
                 ret_val = Some((Move::NOP, Move::UP));
             },
             HeadPosition::BELOW => self.tail = HeadPosition::SAME,
-            HeadPosition::LEFT => self.tail = HeadPosition::ABOVE_LEFT,
-            HeadPosition::RIGHT => self.tail = HeadPosition::ABOVE_RIGHT,
-            HeadPosition::ABOVE_LEFT => {
+            HeadPosition::LEFT => self.tail = HeadPosition::AboveLeft,
+            HeadPosition::RIGHT => self.tail = HeadPosition::AboveRight,
+            HeadPosition::AboveLeft => {
                 self.tail = HeadPosition::ABOVE;
                 self.tail_position = (self.head.0-1, self.head.1);
                 ret_val = Some((Move::LEFT, Move::UP));
             },
-            HeadPosition::ABOVE_RIGHT => {
+            HeadPosition::AboveRight => {
                 self.tail = HeadPosition::ABOVE;
                 self.tail_position = (self.head.0-1, self.head.1);
                 ret_val = Some((Move::RIGHT, Move::UP));
             },
-            HeadPosition::BELOW_LEFT => {
+            HeadPosition::BelowLeft => {
                 self.tail = HeadPosition::LEFT
             },
-            HeadPosition::BELOW_RIGHT => {
+            HeadPosition::BelowRight => {
                 self.tail = HeadPosition::RIGHT
             }
         }
@@ -110,20 +110,20 @@ impl Rope {
                 self.tail_position = (self.head.0+1, self.head.1);
                 ret_val = Some((Move::NOP, Move::DOWN));
             }
-            HeadPosition::LEFT => self.tail = HeadPosition::BELOW_LEFT,
-            HeadPosition::RIGHT => self.tail = HeadPosition::BELOW_RIGHT,
-            HeadPosition::ABOVE_LEFT => {
+            HeadPosition::LEFT => self.tail = HeadPosition::BelowLeft,
+            HeadPosition::RIGHT => self.tail = HeadPosition::BelowRight,
+            HeadPosition::AboveLeft => {
                 self.tail = HeadPosition::LEFT
             },
-            HeadPosition::ABOVE_RIGHT => {
+            HeadPosition::AboveRight => {
                 self.tail = HeadPosition::RIGHT
             },
-            HeadPosition::BELOW_LEFT => {
+            HeadPosition::BelowLeft => {
                 self.tail = HeadPosition::BELOW;
                 self.tail_position = (self.head.0+1, self.head.1);
                 ret_val = Some((Move::LEFT, Move::DOWN));
             },
-            HeadPosition::BELOW_RIGHT => {
+            HeadPosition::BelowRight => {
                 self.tail = HeadPosition::BELOW;
                 self.tail_position = (self.head.0+1, self.head.1);
                 ret_val = Some((Move::RIGHT, Move::DOWN));
@@ -139,27 +139,27 @@ impl Rope {
         let mut ret_val: Option<(Move, Move)> = None;
         match self.tail {
             HeadPosition::SAME => self.tail = HeadPosition::LEFT,
-            HeadPosition::ABOVE => self.tail = HeadPosition::ABOVE_LEFT,
-            HeadPosition::BELOW => self.tail = HeadPosition::BELOW_LEFT,
+            HeadPosition::ABOVE => self.tail = HeadPosition::AboveLeft,
+            HeadPosition::BELOW => self.tail = HeadPosition::BelowLeft,
             HeadPosition::LEFT => {
                 self.tail_position = (self.head.0, self.head.1+1);
                 ret_val = Some((Move::NOP, Move::LEFT));
             },
             HeadPosition::RIGHT => self.tail = HeadPosition::SAME,
-            HeadPosition::ABOVE_LEFT => {
+            HeadPosition::AboveLeft => {
                 self.tail = HeadPosition::LEFT;
                 self.tail_position = (self.head.0, self.head.1+1);
                 ret_val = Some((Move::LEFT, Move::UP));
             },
-            HeadPosition::ABOVE_RIGHT => {
+            HeadPosition::AboveRight => {
                 self.tail = HeadPosition::ABOVE
             },
-            HeadPosition::BELOW_LEFT => {
+            HeadPosition::BelowLeft => {
                 self.tail = HeadPosition::LEFT;
                 self.tail_position = (self.head.0, self.head.1+1);
                 ret_val = Some((Move::LEFT, Move::DOWN));
             },
-            HeadPosition::BELOW_RIGHT => {
+            HeadPosition::BelowRight => {
                 self.tail = HeadPosition::BELOW
             }
         }
@@ -173,25 +173,25 @@ impl Rope {
         let mut ret_val: Option<(Move, Move)> = None;
         match self.tail {
             HeadPosition::SAME => self.tail = HeadPosition::RIGHT,
-            HeadPosition::ABOVE => self.tail = HeadPosition::ABOVE_RIGHT,
-            HeadPosition::BELOW => self.tail = HeadPosition::BELOW_RIGHT,
+            HeadPosition::ABOVE => self.tail = HeadPosition::AboveRight,
+            HeadPosition::BELOW => self.tail = HeadPosition::BelowRight,
             HeadPosition::LEFT => self.tail = HeadPosition::SAME,
             HeadPosition::RIGHT => {
                 self.tail_position = (self.head.0, self.head.1-1);
                 ret_val = Some((Move::NOP, Move::RIGHT));
             },
-            HeadPosition::ABOVE_LEFT => {
+            HeadPosition::AboveLeft => {
                 self.tail = HeadPosition::ABOVE;
             },
-            HeadPosition::ABOVE_RIGHT => {
+            HeadPosition::AboveRight => {
                 self.tail = HeadPosition::RIGHT;
                 self.tail_position = (self.head.0, self.head.1-1);
                 ret_val = Some((Move::RIGHT, Move::UP));
             },
-            HeadPosition::BELOW_LEFT => {
+            HeadPosition::BelowLeft => {
                 self.tail = HeadPosition::BELOW;
             },
-            HeadPosition::BELOW_RIGHT => {
+            HeadPosition::BelowRight => {
                 self.tail = HeadPosition::RIGHT;
                 self.tail_position = (self.head.0, self.head.1-1);
                 ret_val = Some((Move::RIGHT, Move::DOWN));
@@ -239,7 +239,7 @@ pub fn part_two(input: &str) -> String {
                 "D" => Move::DOWN,
                 _ => panic!("omegalul")
             };
-            for a in 0..amt {
+            for _a in 0..amt {
                 let mut movements: Vec<(usize, Move, bool)> = vec![(0, mv_main, true)];
                 while !movements.is_empty() {
                     let (idx, mv, recordable) = movements.pop().unwrap();
@@ -267,7 +267,7 @@ mod tests {
 
     #[test]
     fn test_part_one() {
-        const input: &str = "R 4
+        const INPUT: &str = "R 4
 U 4
 L 3
 D 1
@@ -276,13 +276,13 @@ D 1
 L 5
 R 2";
 
-        let result = part_one(input);
+        let result = part_one(INPUT);
         assert_eq!(result, "13");
     }
 
     #[test]
     fn test_part_two() {
-        const input: &str = "R 5
+        const INPUT: &str = "R 5
 U 8
 L 8
 D 3
@@ -290,7 +290,7 @@ R 17
 D 10
 L 25
 U 20";
-        let result = part_two(input);
+        let result = part_two(INPUT);
         assert_eq!(result, "36");
     }
 }

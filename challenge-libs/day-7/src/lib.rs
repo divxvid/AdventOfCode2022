@@ -1,7 +1,8 @@
-use std::{collections::HashMap};
+use std::collections::HashMap;
 use std::str::FromStr;
 use std::num::ParseIntError;
 
+#[allow(dead_code)]
 #[derive(Debug)]
 struct File {
     name: String,
@@ -43,7 +44,7 @@ fn process_ls(
             if parts[0] == "dir" {
                 let directory_name = parts[1];
                 if !directory_map.contains_key(directory_name) {
-                    let mut children_vector : Vec<String> = Vec::new();
+                    let children_vector : Vec<String> = Vec::new();
                     directory_map.insert(directory_name.to_string(),  children_vector);
                 }
                 parent_directory.insert(directory_name.to_string(), current_directory.to_string());
@@ -55,7 +56,7 @@ fn process_ls(
             } else {
                 let file: File = line.parse::<File>().unwrap();
                 if !directory_files.contains_key(current_directory) {
-                    let mut vn: Vec<File> = vec![file];
+                    let vn: Vec<File> = vec![file];
                     directory_files.insert(current_directory.clone(), vn);
                 } else {
                     let vc = directory_files.get_mut(current_directory);
@@ -110,7 +111,7 @@ fn process_cd(
 ) {
     let parts = cmd.split_whitespace().collect::<Vec<&str>>();
     if parts[1] == ".." {
-        let mut parent = parent_directory.get(current_directory).unwrap();
+        let parent = parent_directory.get(current_directory).unwrap();
         current_directory.clear();
         current_directory.push_str(parent);
     } else {
@@ -157,7 +158,7 @@ pub fn part_one(input: &str) -> String {
 
 }
 
-pub fn part_two(input: &str) -> String {
+pub fn part_two(_input: &str) -> String {
     "unsolved".to_string()
 }
 #[cfg(test)]

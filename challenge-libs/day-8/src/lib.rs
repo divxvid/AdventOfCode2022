@@ -97,7 +97,7 @@ pub fn part_two(input: &str) -> String {
             }
 
             let mut right = 0;
-            for cc in ((c+1)..n_cols) {
+            for cc in (c+1)..n_cols {
                 right += 1;
                 if rows[r].chars().nth(cc).unwrap() >= ch {
                     break;
@@ -113,7 +113,7 @@ pub fn part_two(input: &str) -> String {
             }
 
             let mut down = 0;
-            for rr in ((r+1)..n_rows) {
+            for rr in (r+1)..n_rows {
                 down += 1;
                 if rows[rr].chars().nth(c).unwrap() >= ch {
                     break;
