@@ -38,7 +38,7 @@ fn parse_input(input: &str) -> Vec<Sensor> {
 
 pub fn part_one(input: &str, y: i32) -> String {
     let sensors = parse_input(input);
-    let mut valid_points: HashSet<(i32, i32)> = HashSet::new();
+    let mut valid_points: HashSet<i32> = HashSet::new();
 
     sensors.iter().for_each(|sensor| {
         let delta = sensor.location.1.abs_diff(y);
@@ -50,19 +50,61 @@ pub fn part_one(input: &str, y: i32) -> String {
         let start = sensor.location.0 - remaining as i32;
         let end = sensor.location.0 + remaining as i32;
         (start..=end).for_each(|x| {
-            valid_points.insert((x, y));
+            valid_points.insert(x);
         });
     });
 
-    sensors.iter().for_each(|sensor| {
-        valid_points.remove(&sensor.closest_beacon);
-    });
+    sensors.iter()
+        .filter(|sensor| sensor.closest_beacon.1 == y)
+        .for_each(|sensor| {
+            valid_points.remove(&sensor.closest_beacon.0);
+        });
+
     
     valid_points.len().to_string()
 }
 
-pub fn part_two(_input: &str) -> String {
-    "unsolved".to_string()
+pub fn part_two(input: &str, y_limit: i32) -> String {
+    let sensors = parse_input(input);
+    let mut ans: Option<i64> = None;
+
+    for y in 0..=y_limit {
+        let mut ranges: Vec<(i32, i32)> = Vec::new();
+        sensors.iter().for_each(|sensor| {
+            let delta = sensor.location.1.abs_diff(y);
+            if delta > sensor.beacon_distance {
+                return;
+            }
+
+            let remaining = sensor.beacon_distance - delta;
+            let start = sensor.location.0 - remaining as i32;
+            let end = sensor.location.0 + remaining as i32;
+            ranges.push((start, end));
+        });
+
+        ranges.sort();
+        let mut current_range = ranges[0];
+
+        for r in ranges.iter().skip(1) {
+            if r.0 - current_range.1 > 1 {
+                if r.0 < 0 {
+                    current_range = *r;
+                } else if r.0 - current_range.1 == 2 {
+                    ans = Some((r.0 as i64 - 1) * 4_000_000 + y as i64);
+                    break;
+                } else {
+                    panic!("what the? current:{current_range:?}\nnext:{r:?}\nranges:{ranges:?}");
+                }
+            } else {
+                current_range.1 = current_range.1.max(r.1);
+            }
+        }
+        if ans.is_some() {
+            break;
+        }
+    }
+
+    ans.expect("No Answer found ?!").to_string()
 }
 
 #[cfg(test)]
@@ -88,5 +130,10 @@ Sensor at x=20, y=1: closest beacon is at x=15, y=3";
     fn test_part_one() {
         let result = part_one(INPUT, 10);
         assert_eq!(result, "26");
+    }
+    #[test]
+    fn test_part_two() {
+        let result = part_two(INPUT, 20);
+        assert_eq!(result, "56000011");
     }
 }
