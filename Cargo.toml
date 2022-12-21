@@ -13,4 +13,5 @@ members = [
     "challenge-libs/day-12",
     "challenge-libs/day-13",
     "challenge-libs/day-14",
+    "challenge-libs/day-15",
 ]

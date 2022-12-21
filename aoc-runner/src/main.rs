@@ -5,7 +5,7 @@ use std::fs::File;
 use std::time::SystemTime;
 
 //Custom imports
-use day_14;
+use day_15;
 
 const INPUT_FILE_NAME: &str = "./data/input.txt";
 
@@ -32,6 +32,6 @@ fn timeit<F: Fn() -> T, T>(f: F) -> T {
 
 fn main() {
     let file_data = read_input_from_file(INPUT_FILE_NAME);
-    println!("Part one output:\n{}", timeit(|| day_14::part_one(&file_data)));
-    println!("Part two output:\n{}", timeit(|| day_14::part_two(&file_data)));
+    println!("Part one output:\n{}", timeit(|| day_15::part_one(&file_data, 2_000_000)));
+    println!("Part two output:\n{}", timeit(|| day_15::part_two(&file_data)));
 }
