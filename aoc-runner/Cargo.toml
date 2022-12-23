@@ -6,4 +6,4 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-day-15 = { path = "../challenge-libs/day-15" }
+day-7 = { path = "../challenge-libs/day-7" }
